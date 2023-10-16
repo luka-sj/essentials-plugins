@@ -248,10 +248,10 @@ module BattleScenes
   #  configuration of scene lighting
   #-----------------------------------------------------------------------------
   module Lights
-    ROOM   = { 'Lights::A'    => true }
-    DISCO  = { 'Lights::B'    => true }
-    FOREST = { 'Lights::C'    => true }
-    SPIN   = { 'Lights::Spin' => true }
+    ROOM   = { 'Lights::A'     => true }
+    DISCO  = { 'Lights::B'     => true }
+    FOREST = { 'Lights::C'     => true }
+    STAGE  = { 'Lights::Stage' => true }
   end
   #-----------------------------------------------------------------------------
   #  configuration of bubble effects
@@ -344,7 +344,7 @@ module BattleScenes
     )
 
     STAGE = { backdrop: 'IndoorB' }.merge_many(
-      Environments::INDOOR, Decors::STAGE, Lights::SPIN, Lights::ROOM
+      Environments::INDOOR, Decors::STAGE, Lights::STAGE, Lights::ROOM
     )
 
     DISCO = { backdrop: 'DanceFloor' }.merge_many(

@@ -1,29 +1,30 @@
 #===============================================================================
-#  Light A components for dynamic battle scenes
+#  Light B components for dynamic battle scenes
 #===============================================================================
 module SCBA
   module Components
     module Lights
-      class A
+      class B
         include SCBA::Common::Room
         #-----------------------------------------------------------------------
         #  particle constructor
         #-----------------------------------------------------------------------
         def construct
           @opacity = [128, 179, 230, 255]
-          bitmap   = "Graphics/Battlebacks/Components/#{@data.is_a?(String) ? @data : 'lightA'}"
+          bitmap   = "Graphics/Battlebacks/Components/#{@data.is_a?(String) ? @data : 'lightB'}"
 
-          4.times do |i|
+          6.times do |i|
             @sprites.add(
               i,
               bitmap: bitmap,
-              ex: [183, 135, 70, 0][i],
-              ey: [-2, -15, -15, -16][i],
-              param: [0.8, 1, 1.25, 1.4][i],
-              z: [10, 10, 18, 18][i],
-              opacity: [0.5, 0.7, 0.9, 1][i] * 255,
-              end_x: [0.5, 0.7, 0.9, 1][i],
-              speed: rand(1...5)
+              anchor: :top_middle,
+              ex: [40, 104, 146, 210, 256, 320][i],
+              ey: -8,
+              mirror: (i % 2).odd?,
+              speed: rand(2...5) * 3,
+              z: 3,
+              opacity: 0,
+              memorize_bitmap: true
             )
           end
         end
@@ -33,9 +34,11 @@ module SCBA
         def update
           4.times do |i|
             @sprites[i].update
-            @opacity[i] -= (@sprites[i].toggle * @sprites[i].speed).lerp
-            @sprites[i].opacity = @opacity[i]
-            @sprites[i].toggle *= -1 if @sprites[i].opacity <= 95 || @sprites[i].opacity >= @sprites[i].end_x * 255
+            next unless (@room.frame % @sprites[i].speed.lerp(inverse: true)) < 1
+
+            @sprites[i].bitmap = @sprites[i].stored_bitmap.clone
+            @sprites[i].bitmap.hue_change((rand(8) * 45).lerp.round)
+            @sprites[i].opacity = (rand(4) < 2 ? 192 : 0)
           end
         end
         #-----------------------------------------------------------------------
