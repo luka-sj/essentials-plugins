@@ -126,7 +126,7 @@ module LUTS
     def set(options = {})
       @sprites.keys.each do |key|
         options.except(:type, :class).each do |option, value|
-          next set_value(key, "#{option}=".to_sym, value) if @sprites[key].respond_to?("#{option}=".to_sym)
+          next set_value(key, "#{option}=", value) if @sprites[key].respond_to?("#{option}=")
           next unless @sprites[key].respond_to?(option)
 
           set_value(key, option, value)
