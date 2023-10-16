@@ -9,6 +9,10 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+/Hotfixes/
+
+# Ignore test scripts
+/*/**/test.rb
 
 # Used by dotenv library to load environment variables.
 # .env
