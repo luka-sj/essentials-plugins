@@ -1,0 +1,6 @@
+Name         = Scenic Battles
+Version      = 1.0.0
+Essentials   = 21.1
+Website      = https://luka-sj.com/res/scba
+Credits      = Luka S.J.
+Requires     = Luka's Scripting Utilities,4.0.0
