@@ -288,7 +288,7 @@ module BattleScenes
     FOREST = {
       'shade:forest' => {
         bitmap: 'forestShade', z: 1, flat: true,
-        oy: 0, y: 94, type: :sheet, frames: 2, speed: 16
+        oy: 0, y: 94, type: :sheet, frames: 2, speed: 32
       }
     }
   end

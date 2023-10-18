@@ -19,6 +19,7 @@ module SCBA
         @strong_wind  = false
         @dynamax      = false
         @frame        = 0
+        @weather      = nil
         @vector       = Vector.new(x: Graphics.width / 2, y: Graphics.height / 2, zoom_x: 1.7, zoom_y: 1.5)
         @wind         = {
           speed: 90, wait: 0, toggle: 0.5
@@ -73,6 +74,31 @@ module SCBA
         @focused = true
       end
       #-------------------------------------------------------------------------
+      #  toggle weather
+      #-------------------------------------------------------------------------
+      def toggle_weather(type)
+        klass     = type.to_s.camelize
+        component = "SCBA::Components::Weather::#{klass}"
+
+        # if component exists
+        unless SCBA.const_defined?(component)
+          LUTS::ErrorMessages::ComponentError.new(component).raise
+          return
+        end
+
+        # set weather if previous one already present
+        if @weather.eql?(type) && @sprites.key?(type)
+          @sprites.dispose(only: type)
+          @weather = nil
+          return
+        end
+
+        # set current weather
+        @sprites.dispose(only: @weather) if !@weather.eql?(type) && !@weather.nil?
+        @sprites.add(type, object: component.constantize.new(@viewport, {}, self))
+        @weather = type
+      end
+      #-------------------------------------------------------------------------
       #  set color based on target sprite
       #-------------------------------------------------------------------------
       def set_color(target, sprite, color = true)
@@ -95,6 +121,10 @@ module SCBA
       #-------------------------------------------------------------------------
       #  compatibility layers for scene transitions
       #-------------------------------------------------------------------------
+      def focused?
+        @focused
+      end
+
       def color
         @viewport.color
       end

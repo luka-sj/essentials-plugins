@@ -5,10 +5,15 @@ module SCBA
   module Components
     class Sky
       include SCBA::Common::Room
+
+      attr_accessor :rain
       #-------------------------------------------------------------------------
       #  particle constructor
       #-------------------------------------------------------------------------
       def construct
+        @tone_color = 0.0
+        @tone_gray  = 0.0
+
         draw_background
         draw_clouds
         draw_stars
@@ -18,6 +23,16 @@ module SCBA
       #  animate skybox
       #-------------------------------------------------------------------------
       def update
+        update_sky_tone
+        # apply sky tone to appropriate sprites
+        @sprites.hash.box.tone.all  = @tone_color
+        @sprites.hash.box.tone.gray = @tone_gray
+        2.times do |i|
+          key = "cloud_#{i}".to_sym
+          @sprites[key].tone.all  = @tone_color
+          @sprites[key].tone.gray = @tone_gray
+        end
+
         @sprites.update
         update_stars
       end
@@ -117,6 +132,20 @@ module SCBA
             toggle: 2
           )
         end
+      end
+      #-------------------------------------------------------------------------
+      #  update star particles
+      #-------------------------------------------------------------------------
+      def update_sky_tone
+        # apply rain conditions to skybox
+        if rain
+          @tone_color -= 2.lerp if @tone_color > -16
+          @tone_gray  += 16.lerp if @tone_gray < 128
+          return
+        end
+
+        @tone_color += 2.lerp if @tone_color < 0
+        @tone_gray  -= 16.lerp if @tone_gray > 0
       end
       #-------------------------------------------------------------------------
       #  update star particles

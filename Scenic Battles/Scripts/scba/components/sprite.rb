@@ -25,7 +25,7 @@ module SCBA
             options[key] = value
           end
 
-          options['bottom!'] = true unless @data[:ox] || @data[:oy]
+          options[:anchor] = :bottom_middle unless @data[:ox] || @data[:oy]
         end)
 
         # apply color to sprite

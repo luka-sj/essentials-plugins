@@ -33,6 +33,16 @@ module SCBA
         end
       end
       #-------------------------------------------------------------------------
+      #  update tree sprites
+      #-------------------------------------------------------------------------
+      def update
+        @sprites.each do |_key, sprite|
+          sprite.skew(angle: @room.wind[:speed])
+          sprite.ox = sprite.x_mid
+          sprite.update
+        end
+      end
+      #-------------------------------------------------------------------------
       #  calculate sprite positions
       #-------------------------------------------------------------------------
       def position_zoom
