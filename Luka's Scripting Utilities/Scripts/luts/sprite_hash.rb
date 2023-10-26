@@ -82,6 +82,10 @@ module LUTS
     def keys
       @sprites.keys
     end
+
+    def key?(key)
+      @sprites.keys.include?(key)
+    end
     #---------------------------------------------------------------------------
     #  iterate through sprite hash with code block
     #---------------------------------------------------------------------------
