@@ -3,7 +3,7 @@
 #===============================================================================
 module Sprites
   class Base < ::FloatSprite
-    include Concerns::Animatable
+    include LUTS::Concerns::Animatable
     #-------------------------------------------------------------------------
     attr_reader   :stored_bitmap
     attr_accessor :direction, :speed, :toggle, :end_x, :end_y, :param, :skew_d
