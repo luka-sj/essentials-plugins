@@ -3,4 +3,4 @@ Version      = 1.0.0
 Essentials   = 21.1
 Website      = https://luka-sj.com/res
 Credits      = Luka S.J.,Marin
-Requires     = Luka's Scripting Utilities
+Requires     = Luka's Scripting Utilities,4.0.0
