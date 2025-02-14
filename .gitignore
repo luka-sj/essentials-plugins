@@ -10,6 +10,7 @@
 /test/version_tmp/
 /tmp/
 /Hotfixes/
+.DS_Store
 
 # Ignore test scripts
 /*/**/test.rb

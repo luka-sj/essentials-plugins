@@ -14,6 +14,8 @@ class ::Color
     Color.new(r, g, b)
   end
   #-----------------------------------------------------------------------------
+  #  returns value if blank or present
+  #-----------------------------------------------------------------------------
   def blank?
     red.zero? && green.zero? && blue.zero? && alpha.zero?
   end
@@ -21,4 +23,5 @@ class ::Color
   def present?
     !blank?
   end
+  #-----------------------------------------------------------------------------
 end
