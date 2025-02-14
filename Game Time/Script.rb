@@ -20,6 +20,17 @@ module GameTime
     #  Does not take leap years into consideration as year is constant
     #  and not taken into account.
     MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31].freeze
+
+    #  Week day names
+    WEEK_DAYS = [
+      _INTL("Sunday"),
+      _INTL("Monday"),
+      _INTL("Tuesday"),
+      _INTL("Wednesday"),
+      _INTL("Thursday"),
+      _INTL("Friday"),
+      _INTL("Saturday")
+    ].freeze
     #  Rate of progression, being 1 real life day = 7.5 in game days.
     #  Calculation based off the target frame rate of 60 FPS:
     #    - 60 in game seconds pass every frame (every second)
@@ -75,6 +86,14 @@ module GameTime
     #  Alias to keep compatible with `Time.now` standards
     def mon; @month;  end
     def min; @minute; end
+    def wday # week day calculation algorithm
+      dd = (day + month) % 7
+      cc = year.to_s.chars[0..1].join.to_i
+      cc = (5 * (cc % 4)) % 7
+      yy = year.to_s.chars[2..3].join.to_i
+      yy = (yy % 28) + (yy / 4.0).floor + cc - (month.between?(1, 2) ? 1 : 0)
+      return (dd + yy) % 7
+    end
 
     #  Converts current date into seconds
     def to_i
@@ -86,6 +105,11 @@ module GameTime
       (@hour * 60 * 60) + (@minute * 60) + (@second)
     end
 
+    #  Get week day name
+    def week_day_name
+      WEEK_DAYS[wday]
+    end
+
     #  Get month name
     def month_name
       pbGetMonthName(@month)
@@ -94,6 +118,18 @@ module GameTime
     #  Get abbreviated month name
     def month_name_short
       pbGetAbbrevMonthName(@month)
+    end
+
+    # Get time in string format
+    def time_to_s(seconds: false)
+      time  = sprintf("%02d:%02d", hour, minute)
+      time += sprintf(":%02d", second) if seconds
+      return time
+    end
+
+    # Get date in string format
+    def date_to_s
+      sprintf("%s, %d%s %s", week_day_name, day, day_ext, month_name_short)
     end
 
     private
@@ -158,9 +194,22 @@ module GameTime
     def day_seconds
       @day * 24 * 60 * 60
     end
+
+    #  Returns extension for current day
+    def day_ext
+      return 'th' if day.between?(10, 14) # account for teen values
+
+      case day.to_s.characters.last
+      when '1' then 'st'
+      when '2' then 'nd'
+      when '3' then 'rd'
+      else
+        'th'
+      end
+    end
   end
   #-----------------------------------------------------------------------------
-  #  Module function definitions for interfacing with the `Current` class
+  #  Module function definitions for interfacing with the `Now` class
   #-----------------------------------------------------------------------------
   class << self
     #  Returns the current time class
