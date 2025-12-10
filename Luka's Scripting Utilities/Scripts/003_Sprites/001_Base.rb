@@ -90,7 +90,7 @@ module Sprites
     # @param [Color]
     def full_rect(color)
       self.bitmap ||= blank_screen
-      bitmap.fill_rect(0, 0, bmp.width, bmp.height, color)
+      bitmap.fill_rect(0, 0, bitmap.width, bitmap.height, color)
     end
 
     # Sets blank bitmap the size of viewport
